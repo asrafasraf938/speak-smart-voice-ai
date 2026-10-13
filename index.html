@@ -1,109 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Speak Smart Voice AI</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1020">
+<title>Speak Smart | AI Voice Studio</title>
 <style>
-body{font-family:Arial,sans-serif;background:#101827;color:white;margin:0;padding:20px}
-.app{max-width:600px;margin:auto;background:#1e293b;padding:22px;border-radius:18px}
-h1{color:#60a5fa;text-align:center}
-p{color:#cbd5e1;text-align:center}
-textarea,select,input{box-sizing:border-box;width:100%;padding:12px;margin:8px 0;border-radius:9px;border:1px solid #475569;background:#0f172a;color:white}
-textarea{height:170px}
-button{padding:12px;border:0;border-radius:9px;margin:5px 2px;background:#3b82f6;color:white;font-weight:bold}
-button:active{opacity:.7}
-.small{font-size:13px;color:#cbd5e1}
-</style>
-</head>
-<body>
-<div class="app">
-<h1>🎙️ Speak Smart</h1>
-<p>AI Voice Studio — Learn English Naturally</p>
-
-<label for="script">Your English Script</label>
-<textarea id="script" placeholder="Type your English lesson here..."></textarea>
-
-<label for="voice">Choose a Voice</label>
-<select id="voice"><option>Loading voices...</option></select>
-
-<label for="speed">Speaking Speed</label>
-<input id="speed" type="range" min="0.6" max="1.3" step="0.1" value="0.9">
-
-<p id="speedText">Speed: 0.9x</p>
-
-<button onclick="speak()">▶ Play Voice</button>
-<button onclick="stopVoice()">⏹ Stop</button>
-<button onclick="saveScript()">💾 Save Script</button>
-<button onclick="loadScript()">📂 Load Script</button>
-
-<p id="status" class="small">Ready to start</p>
-<p class="small">This first version uses voices available on your device or browser.</p>
-</div>
-
+:root{color-scheme:dark;--bg:#0b1020;--panel:#131b2e;--panel2:#0e1628;--line:#293651;--text:#f2f6ff;--muted:#a9b7d0;--blue:#7c9cff;--cyan:#72e3d0}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b2b4c 0,#0b1020 58%);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px 16px 56px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--cyan));font-size:25px;color:#07111d}.brand h1{font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.7px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.pill{border:1px solid #35516b;color:var(--cyan);border-radius:999px;padding:7px 11px;font-size:12px}.hero{padding:28px 0 22px}.eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}.hero h2{font-size:clamp(30px,5vw,46px);line-height:1.1;letter-spacing:-1.4px;margin:9px 0 12px;max-width:760px}.hero p{color:var(--muted);max-width:700px;margin:0}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:18px;align-items:start}.card{background:linear-gradient(180deg,rgba(22,32,53,.97),rgba(17,26,44,.97));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 14px 35px #0002}.card h3{margin:0 0 4px;font-size:18px}.sub{margin:0 0 17px;color:var(--muted);font-size:13px}label{display:block;font-size:13px;font-weight:700;color:#dce6fa;margin:15px 0 7px}textarea,select{width:100%;border:1px solid #34445f;background:var(--panel2);color:var(--text);padding:12px 13px;border-radius:11px;font:inherit;outline:none}textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #7c9cff22}textarea{min-height:190px;resize:vertical}select{cursor:pointer}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.speedrow{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}input[type=range]{width:100%;accent-color:var(--cyan)}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}button{border:1px solid #3a4b68;border-radius:10px;padding:10px 13px;background:#1a2740;color:var(--text);font:600 13px system-ui;cursor:pointer}button:hover{filter:brightness(1.15)}button.primary{background:linear-gradient(135deg,#819dff,#647cf4);border-color:transparent;color:#091126}button.secondary{background:#123a3a;border-color:#23615b;color:#b8fff0}.status{margin-top:14px;padding:10px 12px;border-radius:10px;background:#0d1729;border:1px solid #263750;color:var(--cyan);font-size:13px;min-height:42px}.note{font-size:12px;color:var(--muted);margin-top:10px}.lesson-list{display:grid;gap:9px}.lesson{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;width:100%;padding:13px;background:#101a2d}.lesson strong{display:block;font-size:13px}.lesson small{display:block;color:var(--muted);font-weight:400;margin-top:2px}.tag{font-size:10px;color:var(--cyan);border:1px solid #2e655f;border-radius:999px;padding:4px 7px;white-space:nowrap}.info-panel{margin-top:18px}.translation{white-space:pre-wrap;color:#d5e0f4;font-size:14px}.vocab{width:100%;border-collapse:collapse;font-size:13px}.vocab th,.vocab td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}.vocab th{color:var(--cyan)}.empty{color:var(--muted);font-size:13px}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:25px}.small-btn{padding:7px 9px;font-size:12px}.saved-list{display:grid;gap:7px;margin-top:10px}.saved-item{display:flex;align-items:center;gap:8px}.saved-item button:first-child{flex:1;text-align:left}.saved-item .delete{color:#ffb6bc}@media(max-width:800px){.layout{grid-template-columns:1fr}.top{align-items:flex-start}.pill{font-size:10px}.hero{padding-top:14px}}@media(max-width:460px){.wrap{padding:16px 11px 35px}.card{padding:15px}.grid2{grid-template-columns:1fr}.actions button{flex:1}.hero h2{font-size:32px}}
+</style></head><body><div class="wrap">
+<header class="top"><div class="brand"><div class="logo">🎙️</div><div><h1>Speak Smart</h1><p>AI Voice Studio · Learn English Naturally</p></div></div><span class="pill">LEARN · LISTEN · GROW</span></header>
+<section class="hero"><div class="eyebrow">Your personal English studio</div><h2>Make English practice part of your day.</h2><p>Write a lesson, listen at your own pace, explore guided lessons, and keep your scripts in one place.</p></section>
+<main class="layout"><section class="card"><h3>🎧 Voice Studio</h3><p class="sub">Turn your script into speech using voices available on this device or browser.</p>
+<label for="script">Your English Script</label><textarea id="script" placeholder="Type or paste your English lesson here...">Hello, everyone! Welcome to Speak Smart. Today, we will practise English step by step. Listen carefully and repeat after me. Let's begin!</textarea>
+<div class="grid2"><div><label for="voice">Choose a Voice</label><select id="voice"><option value="">Loading available voices…</option></select></div><div><label for="voiceStyle">Voice preference</label><select id="voiceStyle"><option value="all">All English voices</option><option value="female">Female-sounding names (if available)</option><option value="male">Male-sounding names (if available)</option></select></div></div>
+<label for="speed">Speaking Speed</label><div class="speedrow"><span>Slow</span><strong id="speedText">0.8×</strong><span>Fast</span></div><input id="speed" type="range" min="0.5" max="1.5" step="0.1" value="0.8">
+<div class="actions"><button class="primary" id="playBtn">▶ Play Voice</button><button id="pauseBtn">⏸ Pause</button><button id="resumeBtn">▶ Resume</button><button id="stopBtn">⏹ Stop</button></div>
+<div class="actions"><button class="secondary" id="saveBtn">💾 Save Script</button><button id="loadBtn">📂 Load Latest</button><button id="downloadBtn">⬇ Download TXT</button><button id="clearBtn">✕ Clear</button></div><div id="status" class="status" role="status" aria-live="polite">Ready to start.</div><p class="note">Voice availability depends on your device and browser. Voice names do not always reliably indicate gender. Browser speech does not export speech as an audio file.</p>
+<div class="info-panel"><label>Saved Scripts</label><div id="savedScripts" class="saved-list"><p class="empty">Your saved scripts will appear here.</p></div></div></section>
+<aside><section class="card"><h3>📚 Lesson Library</h3><p class="sub">Choose a sample lesson to load it into the studio.</p><div class="lesson-list" id="lessonList"></div></section>
+<section class="card info-panel"><h3>🇧🇩 Bangla Learning Notes</h3><p class="sub">Sample lesson translation, pronunciation guide, and vocabulary.</p><label>বাংলা অনুবাদ</label><div id="translation" class="translation">একটি নমুনা লেসন বেছে নিলে এখানে বাংলা অনুবাদ দেখাবে।</div><label>আনুমানিক বাংলা উচ্চারণ</label><div id="pronunciation" class="translation">এখানে বাক্যের আনুমানিক উচ্চারণ দেখাবে।</div><label>Vocabulary</label><div id="vocabulary"><p class="empty">Choose a lesson to see useful words.</p></div><p class="note">বাংলা হরফে উচ্চারণটি আনুমানিক, ইংরেজি ধ্বনির সম্পূর্ণ বিকল্প নয়।</p></section>
+<section class="card info-panel"><h3>🪜 Learning Levels</h3><p class="sub">Use the library to practise one level at a time.</p><div class="lesson-list"><div class="lesson"><span><strong>Beginner</strong><small>Everyday words and short sentences</small></span><span class="tag">START</span></div><div class="lesson"><span><strong>Intermediate</strong><small>Workplace conversations and fluency</small></span><span class="tag">BUILD</span></div><div class="lesson"><span><strong>Professional</strong><small>Clear, confident workplace English</small></span><span class="tag">GROW</span></div></div></section></aside></main><footer class="footer">Speak Smart · Practise a little every day.</footer></div>
 <script>
-const voiceSelect = document.getElementById('voice');
-const scriptBox = document.getElementById('script');
-const statusBox = document.getElementById('status');
-const speed = document.getElementById('speed');
-
-function loadVoices(){
-  if(!('speechSynthesis' in window)){
-    statusBox.textContent='Voice playback is not supported in this browser.';
-    return;
-  }
-  const voices = speechSynthesis.getVoices();
-  voiceSelect.innerHTML='';
-  const englishVoices=voices.filter(v=>v.lang.toLowerCase().startsWith('en'));
-  (englishVoices.length ? englishVoices : voices).forEach((v)=>{
-    const option=document.createElement('option');
-    option.value=v.name;
-    option.textContent=v.name+' ('+v.lang+')';
-    voiceSelect.appendChild(option);
-  });
-  if(!voiceSelect.options.length){
-    voiceSelect.innerHTML='<option value="">Default device voice</option>';
-  }
-}
-function speak(){
-  const text=scriptBox.value.trim();
-  if(!text){statusBox.textContent='Please enter your script first.';return;}
-  if(!('speechSynthesis' in window)){
-    statusBox.textContent='Please open this app in a browser that supports speech.';
-    return;
-  }
-  speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text);
-  const selected=speechSynthesis.getVoices().find(v=>v.name===voiceSelect.value);
-  if(selected) utterance.voice=selected;
-  utterance.lang=selected ? selected.lang : 'en-US';
-  utterance.rate=Number(speed.value);
-  utterance.onstart=()=>statusBox.textContent='Speaking...';
-  utterance.onend=()=>statusBox.textContent='Finished.';
-  utterance.onerror=()=>statusBox.textContent='Voice playback failed. Try another voice.';
-  speechSynthesis.speak(utterance);
-}
-function stopVoice(){
-  if('speechSynthesis' in window) speechSynthesis.cancel();
-  statusBox.textContent='Stopped.';
-}
-function saveScript(){
-  try{
-    localStorage.setItem('speakSmartScript',scriptBox.value);
-    statusBox.textContent='Script saved on this browser.';
-  }catch(e){statusBox.textContent='Could not save on this browser.';}
-}
-function loadScript(){
-  try{
-    scriptBox.value=localStorage.getItem('speakSmartScript')||'';
-    statusBox.textContent='Saved script loaded.';
-  }catch(e){statusBox.textContent='Could not load the saved script.';}
-}
-speed.addEventListener('input',()=>document.getElementById('speedText').textContent='Speed: '+speed.value+'x');
-if('speechSynthesis' in window){
-  loadVoices();
-  speechSynthesis.onvoiceschanged=loadVoices;
-}
-</script>
-</body>
-  </html>
+const $=id=>document.getElementById(id),scriptBox=$('script'),voiceSelect=$('voice'),speed=$('speed'),statusBox=$('status');let allVoices=[];
+const lessons=[
+{id:'daily',level:'Beginner',title:'Daily English Practice',text:"Hello, everyone! Welcome to Speak Smart. I practise English every day. I listen carefully, repeat each sentence, and learn new words. Small steps help me improve.",translation:'সবাইকে স্বাগতম! Speak Smart-এ স্বাগতম। আমি প্রতিদিন ইংরেজি অনুশীলন করি। আমি মনোযোগ দিয়ে শুনি, প্রতিটি বাক্য আবার বলি এবং নতুন শব্দ শিখি। ছোট ছোট পদক্ষেপ আমাকে উন্নতি করতে সাহায্য করে।',pronunciation:'হ্যালো, এভরিওয়ান! ওয়েলকাম টু স্পিক স্মার্ট। আই প্র্যাকটিস ইংলিশ এভরি ডে। আই লিসেন কেয়ারফুলি, রিপিট ইচ সেন্টেন্স, অ্যান্ড লার্ন নিউ ওয়ার্ডস। স্মল স্টেপস হেল্প মি ইমপ্রুভ।',words:[['practise','প্র্যাকটিস','অনুশীলন করা','verb'],['carefully','কেয়ারফুলি','মনোযোগ দিয়ে','adverb'],['repeat','রিপিট','আবার বলা','verb'],['improve','ইমপ্রুভ','উন্নতি করা','verb']]},
+{id:'work',level:'Intermediate',title:'English at Work',text:'Good morning, sir. I have completed the equipment inspection. The work area is clear, and the safety barriers are in place. Please let me know if anything else is required.',translation:'শুভ সকাল, স্যার। আমি যন্ত্রপাতি পরীক্ষা সম্পন্ন করেছি। কাজের জায়গা পরিষ্কার এবং নিরাপত্তা ব্যারিয়ার ঠিক জায়গায় আছে। আর কিছু প্রয়োজন হলে অনুগ্রহ করে আমাকে জানাবেন।',pronunciation:'গুড মর্নিং, সার। আই হ্যাভ কমপ্লিটেড দি ইকুইপমেন্ট ইনস্পেকশন। দ্য ওয়ার্ক এরিয়া ইজ ক্লিয়ার, অ্যান্ড দ্য সেফটি ব্যারিয়ার্স আর ইন প্লেস। প্লিজ লেট মি নো ইফ এনিথিং এলস ইজ রিকোয়ার্ড।',words:[['completed','কমপ্লিটেড','সম্পন্ন করেছি','verb'],['equipment','ইকুইপমেন্ট','যন্ত্রপাতি','noun'],['inspection','ইনস্পেকশন','পরিদর্শন','noun'],['required','রিকোয়ার্ড','প্রয়োজনীয়','adjective']]},
+{id:'professional',level:'Professional',title:'Speak with Confidence',text:'Clear communication is an important part of professional work. I explain the situation, share the relevant details, and ask questions when something is unclear. Speaking calmly helps the team work safely and effectively.',translation:'স্পষ্ট যোগাযোগ পেশাগত কাজের একটি গুরুত্বপূর্ণ অংশ। আমি পরিস্থিতি ব্যাখ্যা করি, প্রাসঙ্গিক তথ্য জানাই এবং কোনো কিছু অস্পষ্ট হলে প্রশ্ন করি। শান্তভাবে কথা বললে দল নিরাপদে ও কার্যকরভাবে কাজ করতে পারে।',pronunciation:'ক্লিয়ার কমিউনিকেশন ইজ অ্যান ইম্পর্ট্যান্ট পার্ট অভ প্রফেশনাল ওয়ার্ক। আই এক্সপ্লেইন দ্য সিচুয়েশন, শেয়ার দ্য রেলেভ্যান্ট ডিটেইলস, অ্যান্ড আস্ক কোয়েশ্চনস হোয়েন সামথিং ইজ আনক্লিয়ার। স্পিকিং কামলি হেল্পস দ্য টিম ওয়ার্ক সেফলি অ্যান্ড ইফেক্টিভলি।',words:[['communication','কমিউনিকেশন','যোগাযোগ','noun'],['relevant','রেলেভ্যান্ট','প্রাসঙ্গিক','adjective'],['unclear','আনক্লিয়ার','অস্পষ্ট','adjective'],['effectively','ইফেক্টিভলি','কার্যকরভাবে','adverb']]}
+];
+function setStatus(s){statusBox.textContent=s}
+function loadVoices(){if(!('speechSynthesis'in window)){voiceSelect.innerHTML='<option>Speech not supported</option>';setStatus('This browser does not support speech. Try an updated Chrome browser.');return}allVoices=speechSynthesis.getVoices();const style=$('voiceStyle').value;let list=allVoices.filter(v=>/^en([-_]|$)/i.test(v.lang));if(!list.length)list=allVoices;if(style!=='all'){const pattern=style==='female'?/female|woman|samantha|victoria|karen|zira|susan|aria|jenny|libby|sonia|eva/i:/male|man|david|mark|daniel|guy|ryan|george|james|alex/i;const matches=list.filter(v=>pattern.test(v.name));if(matches.length)list=matches}const old=voiceSelect.value;voiceSelect.innerHTML='';if(!list.length){voiceSelect.add(new Option('Default device voice',''));return}list.forEach(v=>voiceSelect.add(new Option(`${v.name} (${v.lang})`,v.name)));if([...voiceSelect.options].some(o=>o.value===old))voiceSelect.value=old}
+function speak(){const text=scriptBox.value.trim();if(!text){setStatus('Please enter a script first.');return}if(!('speechSynthesis'in window)){setStatus('Speech playback is not supported in this browser.');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text),v=allVoices.find(v=>v.name===voiceSelect.value);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=Number(speed.value);u.onstart=()=>setStatus('Speaking…');u.onend=()=>setStatus('Finished speaking.');u.onerror=e=>{if(e.error!=='canceled'&&e.error!=='interrupted')setStatus('Voice playback failed. Try another voice.')};speechSynthesis.speak(u)}
+function stopVoice(){if('speechSynthesis'in window)speechSynthesis.cancel();setStatus('Playback stopped.')}
+function getSaved(){try{return JSON.parse(localStorage.getItem('speakSmartScripts')||'[]')}catch(e){return []}}
+function saveScript(){const text=scriptBox.value.trim();if(!text){setStatus('Write something before saving.');return}const saved=getSaved(),name=prompt('Give this script a name:',`Script ${saved.length+1}`);if(name===null)return;saved.unshift({id:Date.now(),name:name.trim()||`Script ${saved.length+1}`,text,updated:new Date().toLocaleString()});try{localStorage.setItem('speakSmartScripts',JSON.stringify(saved.slice(0,30)));renderSaved();setStatus('Script saved on this browser.')}catch(e){setStatus('Could not save. Browser storage may be full or disabled.')}}
+function loadLatest(){const s=getSaved();if(!s.length){setStatus('No saved scripts yet.');return}scriptBox.value=s[0].text;setStatus(`Loaded: ${s[0].name}`)}function loadSaved(id){const item=getSaved().find(s=>s.id===id);if(item){scriptBox.value=item.text;setStatus(`Loaded: ${item.name}`)}}function deleteSaved(id){localStorage.setItem('speakSmartScripts',JSON.stringify(getSaved().filter(x=>x.id!==id)));renderSaved();setStatus('Saved script deleted.')}
+function renderSaved(){const host=$('savedScripts'),s=getSaved();host.innerHTML='';if(!s.length){host.innerHTML='<p class="empty">Your saved scripts will appear here.</p>';return}s.forEach(item=>{const row=document.createElement('div');row.className='saved-item';const b=document.createElement('button');b.textContent='📄 '+item.name;b.title=item.updated;b.onclick=()=>loadSaved(item.id);const d=document.createElement('button');d.textContent='Delete';d.className='delete small-btn';d.onclick=()=>deleteSaved(item.id);row.append(b,d);host.append(row)})}
+function downloadScript(){const text=scriptBox.value.trim();if(!text){setStatus('There is no script to download.');return}const blob=new Blob([text],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='speak-smart-script.txt';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);setStatus('TXT download started.')}
+function renderLessons(){const host=$('lessonList');host.innerHTML='';lessons.forEach(l=>{const b=document.createElement('button');b.className='lesson';b.innerHTML=`<span><strong>${l.title}</strong><small>${l.level} · ${l.text.split(/\s+/).length} words</small></span><span class="tag">LOAD</span>`;b.onclick=()=>{scriptBox.value=l.text;$('translation').textContent=l.translation;$('pronunciation').textContent=l.pronunciation;const table=document.createElement('table');table.className='vocab';table.innerHTML='<thead><tr><th>Word</th><th>বাংলা উচ্চারণ</th><th>বাংলা অর্থ</th><th>Type</th></tr></thead>';const body=document.createElement('tbody');l.words.forEach(w=>{const tr=document.createElement('tr');w.forEach(t=>{const td=document.createElement('td');td.textContent=t;tr.append(td)});body.append(tr)});table.append(body);$('vocabulary').innerHTML='';$('vocabulary').append(table);setStatus(`Loaded lesson: ${l.title}`)};host.append(b)})}
+$('playBtn').onclick=speak;$('stopBtn').onclick=stopVoice;$('pauseBtn').onclick=()=>{if('speechSynthesis'in window&&speechSynthesis.speaking){speechSynthesis.pause();setStatus('Playback paused.')}else setStatus('Nothing is playing right now.')};$('resumeBtn').onclick=()=>{if('speechSynthesis'in window&&speechSynthesis.paused){speechSynthesis.resume();setStatus('Playback resumed.')}else setStatus('Playback is not paused.')};$('saveBtn').onclick=saveScript;$('loadBtn').onclick=loadLatest;$('downloadBtn').onclick=downloadScript;$('clearBtn').onclick=()=>{scriptBox.value='';setStatus('Script cleared.')};speed.oninput=()=>$('speedText').textContent=Number(speed.value).toFixed(1)+'×';$('voiceStyle').onchange=loadVoices;renderLessons();renderSaved();if('speechSynthesis'in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+</script></body></html>
