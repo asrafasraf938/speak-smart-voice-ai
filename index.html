@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speak Smart Voice AI</title>
+<style>
+body{font-family:Arial,sans-serif;background:#101827;color:white;margin:0;padding:20px}
+.app{max-width:600px;margin:auto;background:#1e293b;padding:22px;border-radius:18px}
+h1{color:#60a5fa;text-align:center}
+p{color:#cbd5e1;text-align:center}
+textarea,select,input{box-sizing:border-box;width:100%;padding:12px;margin:8px 0;border-radius:9px;border:1px solid #475569;background:#0f172a;color:white}
+textarea{height:170px}
+button{padding:12px;border:0;border-radius:9px;margin:5px 2px;background:#3b82f6;color:white;font-weight:bold}
+button:active{opacity:.7}
+.small{font-size:13px;color:#cbd5e1}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>🎙️ Speak Smart</h1>
+<p>AI Voice Studio — Learn English Naturally</p>
+
+<label for="script">Your English Script</label>
+<textarea id="script" placeholder="Type your English lesson here..."></textarea>
+
+<label for="voice">Choose a Voice</label>
+<select id="voice"><option>Loading voices...</option></select>
+
+<label for="speed">Speaking Speed</label>
+<input id="speed" type="range" min="0.6" max="1.3" step="0.1" value="0.9">
+
+<p id="speedText">Speed: 0.9x</p>
+
+<button onclick="speak()">▶ Play Voice</button>
+<button onclick="stopVoice()">⏹ Stop</button>
+<button onclick="saveScript()">💾 Save Script</button>
+<button onclick="loadScript()">📂 Load Script</button>
+
+<p id="status" class="small">Ready to start</p>
+<p class="small">This first version uses voices available on your device or browser.</p>
+</div>
+
+<script>
+const voiceSelect = document.getElementById('voice');
+const scriptBox = document.getElementById('script');
+const statusBox = document.getElementById('status');
+const speed = document.getElementById('speed');
+
+function loadVoices(){
+  if(!('speechSynthesis' in window)){
+    statusBox.textContent='Voice playback is not supported in this browser.';
+    return;
+  }
+  const voices = speechSynthesis.getVoices();
+  voiceSelect.innerHTML='';
+  const englishVoices=voices.filter(v=>v.lang.toLowerCase().startsWith('en'));
+  (englishVoices.length ? englishVoices : voices).forEach((v)=>{
+    const option=document.createElement('option');
+    option.value=v.name;
+    option.textContent=v.name+' ('+v.lang+')';
+    voiceSelect.appendChild(option);
+  });
+  if(!voiceSelect.options.length){
+    voiceSelect.innerHTML='<option value="">Default device voice</option>';
+  }
+}
+function speak(){
+  const text=scriptBox.value.trim();
+  if(!text){statusBox.textContent='Please enter your script first.';return;}
+  if(!('speechSynthesis' in window)){
+    statusBox.textContent='Please open this app in a browser that supports speech.';
+    return;
+  }
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  const selected=speechSynthesis.getVoices().find(v=>v.name===voiceSelect.value);
+  if(selected) utterance.voice=selected;
+  utterance.lang=selected ? selected.lang : 'en-US';
+  utterance.rate=Number(speed.value);
+  utterance.onstart=()=>statusBox.textContent='Speaking...';
+  utterance.onend=()=>statusBox.textContent='Finished.';
+  utterance.onerror=()=>statusBox.textContent='Voice playback failed. Try another voice.';
+  speechSynthesis.speak(utterance);
+}
+function stopVoice(){
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  statusBox.textContent='Stopped.';
+}
+function saveScript(){
+  try{
+    localStorage.setItem('speakSmartScript',scriptBox.value);
+    statusBox.textContent='Script saved on this browser.';
+  }catch(e){statusBox.textContent='Could not save on this browser.';}
+}
+function loadScript(){
+  try{
+    scriptBox.value=localStorage.getItem('speakSmartScript')||'';
+    statusBox.textContent='Saved script loaded.';
+  }catch(e){statusBox.textContent='Could not load the saved script.';}
+}
+speed.addEventListener('input',()=>document.getElementById('speedText').textContent='Speed: '+speed.value+'x');
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged=loadVoices;
+}
+</script>
+</body>
+  </html>
